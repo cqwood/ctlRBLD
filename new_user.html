@@ -1,0 +1,33 @@
+<html>
+<script>
+function myFunction() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("my-demo").innerHTML = this.responseText;
+      }
+  };
+  xhttp.open("POST", "https://4vbb9vr1t0.execute-api.us-east-2.amazonaws.com/prod/mkuser", true);
+	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  var auth = "username="+document.getElementById("User").value + "&PW=" + document.getElementById("PW").value + "&EM=" + document.getElementById("EM").value;
+  xhttp.send(auth);
+}
+
+function login() {
+  window.location.href = "index.html";
+}
+
+</script>
+<body><div align="center"><br><br><br><br>
+<bold> Username:<br></bold>
+<input maxlength="16" type="text" id="User"> <br>
+<bold> Password:<br></bold>
+<input maxlength="16" type="password" id="PW"> <br>
+<bold> Email:<br></bold>
+<input maxlength="16" type="text" id="EM"> <br>
+<h1>Hello <span id="my-demo"></span></h1>
+<button onclick="myFunction()">Click me</button><br>
+<button onclick="login()">Log in</button><br>
+</body>
+</html>
+

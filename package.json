@@ -1,0 +1,16 @@
+{
+  "name": "ctlrbld",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serverless-plugin-hookscripts": "^0.5.1",
+    "serverless-plugin-scripts": "^1.0.2",
+    "serverless-python-requirements": "^3.1.1"
+  }
+}

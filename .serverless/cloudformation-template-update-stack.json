@@ -1,0 +1,115 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket"
+    },
+    "HelloLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/ctlRBLD-dev-hello"
+      }
+    },
+    "MkuserLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/ctlRBLD-dev-mkuser"
+      }
+    },
+    "HelloLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/ctlRBLD/dev/1514511599475-2017-12-29T01:39:59.475Z/ctlRBLD.zip"
+        },
+        "FunctionName": "ctlRBLD-dev-hello",
+        "Handler": "handler.hello",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::063617668815:role/lambdarole",
+        "Runtime": "python3.6",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "HelloLogGroup"
+      ]
+    },
+    "HelloLambdaVersionZuc4VnpmqsEDd5IKOs7Y6ANR7NUkoE6pALXOxgB8": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "HelloLambdaFunction"
+        },
+        "CodeSha256": "Zuc4VnpmqsED+d5IK+Os7Y/6ANR7NUkoE6pALXOxgB8="
+      }
+    },
+    "MkuserLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/ctlRBLD/dev/1514511599475-2017-12-29T01:39:59.475Z/ctlRBLD.zip"
+        },
+        "FunctionName": "ctlRBLD-dev-mkuser",
+        "Handler": "mkuser.lambda_handler",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::063617668815:role/LambdaDBA",
+        "Runtime": "python3.6",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "test": "asdf"
+          }
+        }
+      },
+      "DependsOn": [
+        "MkuserLogGroup"
+      ]
+    },
+    "MkuserLambdaVersionZuc4VnpmqsEDd5IKOs7Y6ANR7NUkoE6pALXOxgB8": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "MkuserLambdaFunction"
+        },
+        "CodeSha256": "Zuc4VnpmqsED+d5IK+Os7Y/6ANR7NUkoE6pALXOxgB8="
+      }
+    },
+    "S3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "PublicRead",
+        "WebsiteConfiguration": {
+          "ErrorDocument": "error.html",
+          "IndexDocument": "index.html"
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      }
+    },
+    "HelloLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "HelloLambdaVersionZuc4VnpmqsEDd5IKOs7Y6ANR7NUkoE6pALXOxgB8"
+      }
+    },
+    "MkuserLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "MkuserLambdaVersionZuc4VnpmqsEDd5IKOs7Y6ANR7NUkoE6pALXOxgB8"
+      }
+    }
+  }
+}

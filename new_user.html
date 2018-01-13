@@ -1,32 +1,28 @@
-<!DOCTYPE html>  
-<html lang="en">  
-<head>  
-<meta charset="utf-8">  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
 <script>
-function ValidateEmail(inputText)  {  
-  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
-  if(inputText.value.match(mailformat))  {  
-    document.form1.text1.focus();
-    myFunction();  
-  }  
-  else  {  
-    alert("You have entered an invalid email address!");  
-    document.form1.text1.focus();  
-    return false;  
-}  
-}  
-
 function myFunction() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("my-demo").innerHTML = this.responseText.body;
-      }
-  };
+  var inputText = document.getElementById("EM")
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if(inputText.value.match(mailformat))  {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("my-demo").innerHTML = this.responseText.body;
+        }
+    };
   xhttp.open("POST", "https://4on98xzlnb.execute-api.us-east-2.amazonaws.com/dev/api/mkuser", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   var auth = "username="+document.getElementById("User").value + "&PW=" + document.getElementById("PW").value + "&EM=" + document.getElementById("EM").value;
   xhttp.send(auth);
+  }
+  else  {
+    alert("You have entered an invalid email address!");
+    document.form1.text1.focus();
+    return false;
+  }
 }
 
 function login() {
@@ -36,14 +32,13 @@ function login() {
 </script>
 <body><div align="center"><br><br><br><br>
 <bold> Username:<br></bold>
-<input maxlength="16" type="text" id="User"> <br>
+<input maxlength="20" type="text" id="User"> <br>
 <bold> Password:<br></bold>
-<input maxlength="16" type="password" id="PW"> <br>
+<input maxlength="20" type="password" id="PW"> <br>
 <bold> Email:<br></bold>
-<input maxlength="16" type="text" id="EM"> <br>
+<input maxlength="30" type="text" id="EM"> <br>
 <h1>Hello <span id="my-demo"></span></h1>
 <button onclick="myFunction()">Click me</button><br>
 <button onclick="login()">Already registered? Log in</button><br>
 </body>
 </html>
-

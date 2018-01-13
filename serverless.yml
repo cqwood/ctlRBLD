@@ -91,9 +91,10 @@ functions:
 
 resources:
   Resources:
-    S3Bucket:
+    S3htmlBucket:
       Type: AWS::S3::Bucket
       Properties:
+        BucketName: ctlrbld-dev-s3bucket-1jdlcprz5b7zu
         AccessControl: PublicRead
         WebsiteConfiguration:
           ErrorDocument: error.html

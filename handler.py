@@ -52,7 +52,7 @@ def getURL():
     # let's talk to our AWS Elasticsearch cluster
     auth=AWSV4Sign(credentials, region, service)
 
-    response = requests.get('https://4on98xzlnb.execute-api.us-east-2.amazonaws.com/dev/api/geturl',
+    response = requests.get('https://lducscw0wh.execute-api.us-east-2.amazonaws.com/dev/api/geturl',
                         auth=auth)
     responseJSON = loads(response.content.decode("utf-8"))
     return responseJSON["body"]

@@ -58,17 +58,36 @@ functions:
   hello:
     handler: handler.hello
     role: arn:aws:iam::063617668815:role/lambdarole
-#    events:
-#      - http:
-#        path: api/hello
-#        method: post
-#        integration: lambda
-#        cors: true
+    events:
+      - http:
+          path: api/hello
+          method: post
+          integration: lambda
+          cors: true
   mkuser:
     handler: mkuser.lambda_handler
     role: arn:aws:iam::063617668815:role/LambdaDBA
     environment:
       test: 'asdf'
+    events:
+      - http:
+          path: api/mkuser
+          method: post
+          integration: lambda
+          cors: true
+  getURL:
+    handler: getURL.handler
+    role: arn:aws:iam::063617668815:role/service-role/S3GET
+    runtime: nodejs6.10
+    events:
+      - http:
+          path: api/geturl
+          method: get
+          integration: lambda
+          authorizer:
+            type: aws_iam
+          cors: true
+
 
 resources:
   Resources:
@@ -79,6 +98,49 @@ resources:
         WebsiteConfiguration:
           ErrorDocument: error.html
           IndexDocument: index.html
+    DDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Users
+        AttributeDefinitions:
+          -
+            AttributeName: username
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: username
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    myDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          Origins:
+          -
+            DomainName: ctlrbld-dev-s3bucket-1jdlcprz5b7zu.s3-website.us-east-2.amazonaws.com
+            Id: S3-Website-ctlrbld-dev-s3bucket-1jdlcprz5b7zu.s3-website.us-east-2.amazonaws.com
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+          Enabled: 'true'
+          Comment: Somecomment
+          DefaultRootObject: index.html
+          DefaultCacheBehavior:
+            TargetOriginId: S3-Website-ctlrbld-dev-s3bucket-1jdlcprz5b7zu.s3-website.us-east-2.amazonaws.com
+            SmoothStreaming: 'false'
+            ForwardedValues:
+              QueryString: 'false'
+              Cookies:
+                Forward: all
+            ViewerProtocolPolicy: redirect-to-https
+          PriceClass: PriceClass_100
+          ViewerCertificate:
+            CloudFrontDefaultCertificate: 'true'
+            MinimumProtocolVersion: TLSv1
+
 
 plugins:
   - serverless-python-requirements
@@ -89,7 +151,7 @@ custom:
     dockerizePip: true
   scripts:
     hooks:
-      'aws:deploy:finalize:cleanup': aws s3api put-object --bucket ctlrbld-dev-s3bucket-11ex2tyx2xcv8 --key index.html --body ~/serverless/ctlRBLD/index.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-11ex2tyx2xcv8 --key error.html --body ~/serverless/ctlRBLD/error.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-11ex2tyx2xcv8 --key new_user.html --body ~/serverless/ctlRBLD/new_user.html
+      'aws:deploy:finalize:cleanup': aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key index.html --body ~/serverless/ctlRBLD/index.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key error.html --body ~/serverless/ctlRBLD/error.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key new_user.html --body ~/serverless/ctlRBLD/new_user.html
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

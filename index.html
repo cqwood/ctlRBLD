@@ -5,13 +5,13 @@ function myFunction() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-      window.location.href = this.responseText;
+      window.location.href = JSON.parse(this.responseText).body;
       }
-	  if  (this.readyState == 4 && this.status != 200) {
-	  document.getElementById("my-demo").innerHTML = "Invalid login";
-	  }
+      if  (this.readyState == 4 && this.status != 200) {
+      document.getElementById("my-demo").innerHTML = "Invalid login";
+      }
   };
-  xhttp.open("POST", "https://4vbb9vr1t0.execute-api.us-east-2.amazonaws.com/prod/ctlRBLD-dev-hello", true);
+  xhttp.open("POST", "https://4on98xzlnb.execute-api.us-east-2.amazonaws.com/dev/api/hello", true);
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   var auth = "username="+document.getElementById("User").value + "&PW=" + document.getElementById("PW").value;
   xhttp.send(auth);

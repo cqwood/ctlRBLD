@@ -3,34 +3,33 @@ import datetime
 from requests_aws_sign import AWSV4Sign
 from boto3 import session
 import boto3
-
+from bcrypt import checkpw
+from json import loads
 date = str(datetime.datetime.now())
     
 
 def hello(event, context):
-    input = event["body"]
-    user, pw = input.split("&")[0], input.split("&")[1]
+    formData = event["body"]
+    user, pw = formData['username'], formData['PW']
     dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
     table = dynamodb.Table('Users')
-    
-    response = table.get_item(Key={'username':str(user.split("=")[1])})
-    if pw.split("=")[1] == response['Item']["password"]:
-        if response['Item']["verified"] == True:
-            url = getURL()
-            status = 200
-            update = table.update_item(
-            Key={
-                'username': str(user.split("=")[1])
-            },
-            UpdateExpression="set lastLogin = :d",
-            ExpressionAttributeValues={
-                ':d' : date
-            },
-            ReturnValues="UPDATED_NEW"
-            )
-        else:
-            status = 403
-            url = "Please validate email"
+
+    response = table.get_item(Key={'username':str(user)})
+    hashtest = checkpw(pw.encode('utf-8'), response['Item']["password"].encode('utf-8'))
+
+    if hashtest ==  True:
+        url = getURL()
+        status = 200
+        update = table.update_item(
+        Key={
+            'username': str(user)
+        },
+        UpdateExpression="set lastLogin = :d",
+        ExpressionAttributeValues={
+            ':d' : date
+        },
+        ReturnValues="UPDATED_NEW"
+        )
     else:
         url = "Invalid login"
         status = 403
@@ -40,7 +39,7 @@ def hello(event, context):
         "headers": {
             "Access-Control-Allow-Origin": "*"
         },
-        "body": str(url)
+        "body": url
     }
     
     return resp
@@ -53,7 +52,8 @@ def getURL():
     # let's talk to our AWS Elasticsearch cluster
     auth=AWSV4Sign(credentials, region, service)
 
-    response = requests.get('https://qgmg1prdi9.execute-api.us-east-2.amazonaws.com/prod/getURL',
+    response = requests.get('https://4on98xzlnb.execute-api.us-east-2.amazonaws.com/dev/api/geturl',
                         auth=auth)
-    return str(response.content).split("'")[1]
+    responseJSON = loads(response.content.decode("utf-8"))
+    return responseJSON["body"]
 

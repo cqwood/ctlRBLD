@@ -55,6 +55,14 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
+  ctlrbld:
+    handler: ctlrbld.handler
+    role: arn:aws:iam::063617668815:role/service-role/S3GET
+    events:
+      - http:
+          path: api/ctlrbld
+          method: post
+          integration: lambda_proxy
   hello:
     handler: handler.hello
     role: arn:aws:iam::063617668815:role/lambdarole

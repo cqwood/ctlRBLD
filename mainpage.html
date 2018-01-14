@@ -18,7 +18,7 @@ if (this.readyState == 4 && this.status == 200) {
       document.getElementById("my-demo").innerHTML = this.responseText;
       }
   };
-xhttp.open("POST", "https://4vbb9vr1t0.execute-api.us-east-2.amazonaws.com/prod/TestRequest", true);
+xhttp.open("POST", "https://lducscw0wh.execute-api.us-east-2.amazonaws.com/dev/api/ctlrbld", true);
 xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 var dataSent;
 var boxes = document.getElementsByName("boxes");
@@ -26,21 +26,21 @@ var txt = "Services=";
 var i;
 for (i = 0; i < boxes.length; i++) {
   if (boxes[i].checked) {
-    txt = txt + "&" + boxes[i].value;
+    txt = txt + boxes[i].value + "+";
   }
 }
 var platform = "Platform=";
 var radios = document.getElementsByName("Platform");
 for (i = 0; i < radios.length; i++) {
   if (radios[i].checked) {
-    platform = platform + radios[i].value + "Prefix";
+    platform = platform + radios[i].value;
   }
 }
 var prefix = "";
 if (document.getElementById("VoIP").checked){
-	prefix = "%Prefix=" + document.getElementById("Prefix").value
+	prefix = "Prefix=" + document.getElementById("Prefix").value
 }
-dataSent = "CUG=" + document.getElementById("CUG").value + "%" + platform + "%" + txt + prefix
+dataSent = "CUG=" + document.getElementById("CUG").value + "&" + platform + "&" + txt + "&" + prefix
 document.getElementById("change").innerHTML = dataSent;
 xhttp.send(dataSent);
 }
@@ -87,4 +87,3 @@ hide {
     visibility: hidden;
 }
 </style>
-

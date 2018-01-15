@@ -38,9 +38,9 @@ for (i = 0; i < radios.length; i++) {
 }
 var prefix = "";
 if (document.getElementById("VoIP").checked){
-	prefix = "Prefix=" + document.getElementById("Prefix").value
+	prefix = "&Prefix=" + document.getElementById("Prefix").value
 }
-dataSent = "CUG=" + document.getElementById("CUG").value + "&" + platform + "&" + txt + "&" + prefix
+dataSent = "CUG=" + document.getElementById("CUG").value + "&" + platform + txt + "&" + prefix
 document.getElementById("change").innerHTML = dataSent;
 xhttp.send(dataSent);
 }

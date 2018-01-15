@@ -57,7 +57,7 @@ provider:
 functions:
   ctlrbld:
     handler: ctlrbld.handler
-    role: arn:aws:iam::063617668815:role/service-role/S3GET
+    role: arn:aws:iam::063617668815:role/LambdaDBA
     events:
       - http:
           path: api/ctlrbld
@@ -111,7 +111,22 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ctlrbldprivate
-        AccessControl: AuthenticatedRead 
+        AccessControl: AuthenticatedRead
+    TemplateTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Templates
+        AttributeDefinitions:
+          -
+            AttributeName: Platform
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: Platform
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 4
+          WriteCapacityUnits: 1
     DDBTable:
       Type: AWS::DynamoDB::Table
       Properties:

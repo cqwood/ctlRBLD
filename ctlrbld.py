@@ -53,11 +53,13 @@ def handler(event, context):
 
         template = template.replace("{communities}", " ".join(communities))
         template = template.replace("{policies}", "".join(policies))
-        if "BVoIP" in services or "SIP" in services or "WHOLESALE VoIP" in servies:
+        if "BVoIP" in services  and prefix != "" or "SIP" in services and prefix != "" or "WHOLESALE VoIP" in services and prefix != "":
                 pfxList = "prefix-list \"{CUG}-export\" prefix {0} longer".replace("{0}", prefix)
                 template = template.replace("{prefix-list}", pfxList)
+                template = template.replace("{e15}", "entry 15 from prefix-list \"{CUG}-export\"\nentry 15 action accept community add \"{CUG}-export\"\n")
         else:
                 template = template.replace("{prefix-list}", "")
+                template = template.replace("{e15}", "")
         template = template.replace("{CUG}", CUG)
         template = template.replace("{VPRN}", VPRN)
         template = template.replace("\n", "<br>")

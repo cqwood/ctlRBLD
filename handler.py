@@ -18,18 +18,22 @@ def hello(event, context):
     hashtest = checkpw(pw.encode('utf-8'), response['Item']["password"].encode('utf-8'))
 
     if hashtest ==  True:
-        url = getURL()
-        status = 200
-        update = table.update_item(
-        Key={
-            'username': str(user)
-        },
-        UpdateExpression="set lastLogin = :d",
-        ExpressionAttributeValues={
-            ':d' : date
-        },
-        ReturnValues="UPDATED_NEW"
-        )
+        if response['Item']["verified"] == True:
+            url = getURL()
+            status = 200
+            update = table.update_item(
+            Key={
+                'username': str(user)
+            },
+            UpdateExpression="set lastLogin = :d",
+            ExpressionAttributeValues={
+                ':d' : date
+            },
+            ReturnValues="UPDATED_NEW"
+            )
+        else:
+            url = "Please verify account"
+            status = 403
     else:
         url = "Invalid login"
         status = 403

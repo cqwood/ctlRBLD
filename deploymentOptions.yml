@@ -1,0 +1,4 @@
+#define vars for use in serverless.yml
+
+privates3: ctlrbldprivate
+publics3: ctlrbld-dev-s3bucket-1jdlcprz5b7zu

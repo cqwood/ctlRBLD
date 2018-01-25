@@ -56,7 +56,7 @@ provider:
 
 functions:
   ctlrbld:
-    handler: ctlrbld.handler
+    handler: python/ctlrbld.handler
     role: arn:aws:iam::063617668815:role/LambdaDBA
     events:
       - http:
@@ -64,7 +64,7 @@ functions:
           method: post
           integration: lambda_proxy
   hello:
-    handler: handler.hello
+    handler: python/handler.hello
     role: arn:aws:iam::063617668815:role/lambdarole
     events:
       - http:
@@ -73,7 +73,7 @@ functions:
           integration: lambda
           cors: true
   mkuser:
-    handler: mkuser.lambda_handler
+    handler: python/mkuser.lambda_handler
     role: arn:aws:iam::063617668815:role/LambdaDBA
     environment:
       test: 'asdf'
@@ -180,7 +180,7 @@ custom:
     dockerizePip: true
   scripts:
     hooks:
-      'aws:deploy:finalize:cleanup': aws s3api put-object --bucket ctlrbldprivate --content-type "text/html" --acl "private" --key mainpage.html --body ~/serverless/ctlRBLD/mainpage.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key index.html --body ~/serverless/ctlRBLD/index.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key error.html --body ~/serverless/ctlRBLD/error.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key new_user.html --body ~/serverless/ctlRBLD/new_user.html
+#      'aws:deploy:finalize:cleanup': aws s3api put-object --bucket ctlrbldprivate --content-type "text/html" --acl "private" --key mainpage.html --body ~/serverless/ctlRBLD/mainpage.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key index.html --body ~/serverless/ctlRBLD/index.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key error.html --body ~/serverless/ctlRBLD/error.html; aws s3api put-object --bucket ctlrbld-dev-s3bucket-1jdlcprz5b7zu --content-type "text/html" --acl "public-read" --key new_user.html --body ~/serverless/ctlRBLD/new_user.html
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

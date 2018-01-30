@@ -145,6 +145,8 @@ resources:
     myDistribution:
       Type: AWS::CloudFront::Distribution
       Properties:
+        Aliases:
+          - ctlrbld.de
         DistributionConfig:
           Origins:
           -

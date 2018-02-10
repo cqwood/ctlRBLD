@@ -73,12 +73,45 @@ def handler(event, context):
         }
 
         return resp
+
+    elif platform == "JUN":
+#insert JUN code here
+        communities = []
+        policies = []
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+        table = dynamodb.Table('Templates')
+        response = table.get_item(Key={'Platform':'JUN'})
+        template, communityoptions, importexport = response["Item"]["template"], response["Item"]["community"], response["Item"]["importexport"]
+        del services[len(services) - 1]
+        if len(services) >= 1:
+            template = template + importexport
+        for svc in services:
+            if svc in communityoptions:
+                communities.append(communityoptions[svc])
+            else:
+                resp = {
+		    "statusCode": 200,
+		    "headers": {
+			"Access-Control-Allow-Origin": "*"
+		    },
+		    "body": "invalid service name" + str(services)
+		}
+                return resp
+        resp = {
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": template
+        }
+        return resp
+
     else:
         resp = {
             "statusCode": 200,
             "headers": {
                 "Access-Control-Allow-Origin": "*"
             },
-            "body": platform
+            "body": "invalid router type: " + platform
         }
         return resp

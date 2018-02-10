@@ -146,6 +146,8 @@ resources:
       Type: AWS::CloudFront::Distribution
       Properties:
         DistributionConfig:
+          Aliases:
+          - login.ctlrbld.de
           Origins:
           -
             DomainName: ctlrbld-dev-s3bucket-1jdlcprz5b7zu.s3-website.us-east-2.amazonaws.com

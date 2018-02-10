@@ -1,34 +1,35 @@
-
 <html>
 <script>
-function myFunction() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-      window.location.href = JSON.parse(this.responseText).body;
-      }
-      if  (this.readyState == 4 && this.status != 200) {
-      document.getElementById("my-demo").innerHTML = "Invalid login";
-      }
-  };
-  xhttp.open("POST", "https://lducscw0wh.execute-api.us-east-2.amazonaws.com/dev/api/hello", true);
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  var auth = "username="+document.getElementById("User").value + "&PW=" + document.getElementById("PW").value;
-  xhttp.send(auth);
-}
+    function myFunction() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                window.location.href = JSON.parse(this.responseText).body;
+            }
+            if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("my-demo").innerHTML = "Invalid login";
+            }
+        };
+        xhttp.open("POST", "https://lducscw0wh.execute-api.us-east-2.amazonaws.com/dev/api/hello", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var auth = "username=" + document.getElementById("User").value + "&PW=" + document.getElementById("PW").value;
+        xhttp.send(auth);
+    }
 
-function new_user() {
-  window.location.href = "new_user.html";
-}
-
+    function new_user() {
+        window.location.href = "new_user.html";
+    }
 </script>
-<body><div align="center"><br><br><br><br>
-<bold> Username:<br></bold>
-<input maxlength="16" type="text" id="User"> <br>
-<bold> Password:<br></bold>
-<input maxlength="16" type="password" id="PW"> <br>
-<h1><span id="my-demo"></span></h1>
-<button onclick="myFunction()">Login</button><br>
-<button onclick="new_user()">Register</button><br>
+
+<body>
+    <div align="center"><br><br><br><br>
+        <bold> Username:<br></bold>
+        <input maxlength="16" type="text" id="User"> <br>
+        <bold> Password:<br></bold>
+        <input maxlength="16" type="password" id="PW"> <br>
+        <h1><span id="my-demo"></span></h1>
+        <button onclick="myFunction()">Login</button><br>
+        <button onclick="new_user()">Register</button><br>
 </body>
+
 </html>

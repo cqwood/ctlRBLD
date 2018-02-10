@@ -1,89 +1,94 @@
-
 <html>
 <script>
-function hideElement() {
-	var form = document.getElementById("form");
-	var voip = document.getElementById("VoIP");
-	var wholesale = document.getElementById("WHOLESALE");
-	var sip = document.getElementById("SIP");
-	if (voip.checked||wholesale.checked||sip.checked) {
-    form.style.visibility= "visible";
-  } else {
-		form.style.visibility= "hidden";
-	}
-};
+    function hideElement() {
+        var form = document.getElementById("form");
+        var voip = document.getElementById("VoIP");
+        var wholesale = document.getElementById("WHOLESALE");
+        var sip = document.getElementById("SIP");
+        if (voip.checked || wholesale.checked || sip.checked) {
+            form.style.visibility = "visible";
+        } else {
+            form.style.visibility = "hidden";
+        }
+    };
 
-function myFunction() {
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("my-demo").innerHTML = this.responseText;
-      }
-  };
-xhttp.open("POST", "https://lducscw0wh.execute-api.us-east-2.amazonaws.com/dev/api/ctlrbld", true);
-xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-var dataSent;
-var boxes = document.getElementsByName("boxes");
-var txt = "Services=";
-var i;
-for (i = 0; i < boxes.length; i++) {
-  if (boxes[i].checked) {
-    txt = txt + boxes[i].value + "+";
-  }
-}
-var platform = "Platform=";
-var radios = document.getElementsByName("Platform");
-for (i = 0; i < radios.length; i++) {
-  if (radios[i].checked) {
-    platform = platform + radios[i].value;
-  }
-}
-var prefix = "";
-if (document.getElementById("VoIP").checked||document.getElementById("SIP").checked||document.getElementById("WHOLESALE").checked){
-	prefix = "&Prefix=" + document.getElementById("Prefix").value
-}
-dataSent = "CUG=" + document.getElementById("CUG").value + "&" + platform + "&" + txt + prefix
-document.getElementById("change").innerHTML = dataSent;
-xhttp.send(dataSent);
-}
+    function myFunction() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("my-demo").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("POST", "https://lducscw0wh.execute-api.us-east-2.amazonaws.com/dev/api/ctlrbld", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        var dataSent;
+        var boxes = document.getElementsByName("boxes");
+        var txt = "Services=";
+        var i;
+        for (i = 0; i < boxes.length; i++) {
+            if (boxes[i].checked) {
+                txt = txt + boxes[i].value + "+";
+            }
+        }
+        var platform = "Platform=";
+        var radios = document.getElementsByName("Platform");
+        for (i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                platform = platform + radios[i].value;
+            }
+        }
+        var prefix = "";
+        if (document.getElementById("VoIP").checked || document.getElementById("SIP").checked || document.getElementById("WHOLESALE").checked) {
+            prefix = "&Prefix=" + document.getElementById("Prefix").value
+        }
+        dataSent = "CUG=" + document.getElementById("CUG").value + "&" + platform + "&" + txt + prefix
+        document.getElementById("change").innerHTML = dataSent;
+        xhttp.send(dataSent);
+    }
 </script>
 <span id="change"> Change this</span><br>
 <div>
-		CUG name:<br>
-		<input id="CUG" id="CUG" type="text" /><br>
-<!--		CUG #:<br>
-		<input id="hidden_field" name="CUG_number" type="text" />-->
-		<table style="width:75%">
-		  <tr>
-		    <th>Platform:</th>
-		    <th>Services:</th>
-		  </tr>
-		  <tr>
-		    <td><input name="Platform" type="radio" checked value="ALLU" /> ALLU</td>
-				<td><input name="boxes" type="checkbox" value="BRIX" /> BRIX</td>
-		  </tr>
-		  <tr>
-		    <td><input name="Platform" type="radio" value="JUN" /> JUN</td>
-		    <td><input name="boxes" type="checkbox" value="IQDB" /> IQDB</td>
-		  </tr>
-		  <tr>
-		    <td><input name="Platform" type="radio" value="CSCO" /> CSCO</td>
-		    <td><input name="boxes" type="checkbox" onchange="hideElement()" id="VoIP" value="BVoIP" /> BVoIP</td>
-		  </tr>
-			<tr>
-		    <td><input name="Platform" type="radio" value="CSCO9k" /> CSCO9k</td>
-<!--		    <td><input name="boxes" type="checkbox" value="SDWAN" /> SDWAN</td>-->
-		  </tr>
-			<tr>
-				<td></td><td><input name="boxes" type="checkbox" onchange="hideElement()" id="SIP" value="SIP" /> SIP</td>
-			</tr>
-			<tr>
-				<td></td><td><input name="boxes" type="checkbox" onchange="hideElement()" id="WHOLESALE" value="WHOLESALE VoIP" /> WHOLESALE VoIP</td>
-			</tr>
-		</table>
-		<br><br><br>
-		<hide><span id="form">Prefix: <input  id="Prefix" name="Prefix" type="text" /></span></hide><br>
-		<button onclick="myFunction()">Submit</button><br>
+    CUG name:<br>
+    <input id="CUG" id="CUG" type="text" /><br>
+    <!--            CUG #:<br>
+                <input id="hidden_field" name="CUG_number" type="text" />-->
+    <table style="width:75%">
+        <tr>
+            <th>Platform:</th>
+            <th>Services:</th>
+        </tr>
+        <tr>
+            <td><input name="Platform" type="radio" checked value="ALLU" /> ALLU </td>
+            <td><input name="boxes" type="checkbox" value="BRIX" /> BRIX </td>
+        </tr>
+        <tr>
+            <td><input name="Platform" type="radio" value="JUN" /> JUN </td>
+            <td><input name="boxes" type="checkbox" value="IQDB" /> IQDB </td>
+        </tr>
+        <tr>
+            <td><input name="Platform" type="radio" value="CSCO" /> CSCO </td>
+            <td><input name="boxes" type="checkbox" onchange="hideElement()" id="VoIP" value="BVoIP" /> BVoIP </td>
+        </tr>
+        <tr>
+            <td><input name="Platform" type="radio" value="CSCO9k" /> CSCO9k </td>
+            <td><input name="boxes" type="checkbox" onchange="hideElement()" id="SIP" value="SIP" /> SIP </td>
+        </tr>
+        <tr>
+            <td></td>
+			<td><input name="boxes" type="checkbox" onchange="hideElement()" id="WHOLESALE" value="WHOLESALE VoIP" /> WHOLESALE VoIP </td>
+        </tr>
+        <tr>
+            <td></td>
+			<td><input name="boxes" type="checkbox" value="SDWAN" /> SDWAN </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input name="boxes" type="checkbox" onchange="hideElement()" id="UCaaS" value="UCaaS" /> UCaaS </td>
+        </tr>
+    </table>
+    <br><br><br>
+    <hide><span id="form">Prefix: <input  id="Prefix" name="Prefix" type="text" /></span></hide><br>
+    <button onclick="myFunction()">Submit</button><br>
 </div>
 <h3> Template: </h3>
 <hr>
@@ -91,7 +96,7 @@ xhttp.send(dataSent);
 
 
 <style>
-hide {
-    visibility: hidden;
-}
+    hide {
+        visibility: hidden;
+    }
 </style>

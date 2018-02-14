@@ -16,7 +16,7 @@ var/
 .installed.cfg
 *.egg
 venv/
-
+.gitignore
 # Serverless directories
 .serverless
 node_modules/

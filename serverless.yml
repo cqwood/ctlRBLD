@@ -176,13 +176,15 @@ resources:
 plugins:
   - serverless-python-requirements
   - serverless-plugin-scripts
-
+  - serverless-s3-sync
 custom:
   pythonRequirements:
     dockerizePip: true
-  scripts:
-    hooks:
-#      'aws:deploy:finalize:cleanup': aws s3api put-object --bucket ${file(deploymentOptions.yml):privates3} --content-type "text/html" --acl "private" --key mainpage.html --body ~/serverless/ctlRBLD/mainpage.html; aws s3api put-object --bucket ${file(deploymentOptions.yml):publics3} --content-type "text/html" --acl "public-read" --key index.html --body ~/serverless/ctlRBLD/index.html; aws s3api put-object --bucket ${file(deploymentOptions.yml):publics3} --content-type "text/html" --acl "public-read" --key error.html --body ~/serverless/ctlRBLD/error.html; aws s3api put-object --bucket ${file(deploymentOptions.yml):publics3} --content-type "text/html" --acl "public-read" --key new_user.html --body ~/serverless/ctlRBLD/new_user.html
+  s3Sync:
+    - bucketName: ${file(deploymentOptions.yml):privates3}
+      localDir: private
+    - bucketName: ${file(deploymentOptions.yml):publics3}
+      localDir: public
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

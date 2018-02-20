@@ -6,11 +6,12 @@ import boto3
 from bcrypt import checkpw
 from json import loads
 date = str(datetime.datetime.now())
-    
+
+#    params = event["body"].split("&")
+
 
 def hello(event, context):
-    formData = event["body"]
-    user, pw = formData['username'], formData['PW']
+    user, pw = event["body"].split("&")[0].split("=")[1], event["body"].split("&")[1].split("=")[1]
     dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
     table = dynamodb.Table('Users')
 
@@ -45,7 +46,7 @@ def hello(event, context):
         },
         "body": url
     }
-    
+
     return resp
 def getURL():
     sess = session.Session()
@@ -60,4 +61,3 @@ def getURL():
                         auth=auth)
     responseJSON = loads(response.content.decode("utf-8"))
     return responseJSON["body"]
-

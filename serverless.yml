@@ -70,7 +70,7 @@ functions:
       - http:
           path: api/hello
           method: post
-          integration: lambda
+          integration: lambda_proxy
           cors: true
   mkuser:
     handler: python/mkuser.lambda_handler
@@ -81,7 +81,7 @@ functions:
       - http:
           path: api/mkuser
           method: post
-          integration: lambda
+          integration: lambda_proxy
           cors: true
   getURL:
     handler: getURL.handler
@@ -91,7 +91,7 @@ functions:
       - http:
           path: api/geturl
           method: get
-          integration: lambda
+          integration: lambda_proxy
           authorizer:
             type: aws_iam
           cors: true

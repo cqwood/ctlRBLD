@@ -57,7 +57,6 @@ def getURL():
     region = sess.region_name or 'us-east-2'
     service = 'execute-api'
 
-    # let's talk to our AWS Elasticsearch cluster
     auth=AWSV4Sign(credentials, region, service)
 
     response = requests.get('https://lducscw0wh.execute-api.us-east-2.amazonaws.com/dev/api/geturl',

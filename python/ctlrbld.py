@@ -90,13 +90,18 @@ def handler(event, context):
                 communities.append(communityoptions[svc])
             else:
                 resp = {
-		    "statusCode": 200,
-		    "headers": {
-			"Access-Control-Allow-Origin": "*"
-		    },
-		    "body": "invalid service name" + str(services)
-		}
+                    "statusCode": 200,
+                    "headers": {
+                         "Access-Control-Allow-Origin": "*"
+                    },
+                "body": "invalid service name" + str(services)
+		        }
                 return resp
+        if len(services) >= 1:
+            template = template + response["Item"]["term1"]
+        if "BVoIP" in services  and prefix != "" or "SIP" in services and prefix != "" or "WHOLESALE VoIP" in services and prefix != "":
+
+        template = template.replace("\n", "<br>")
         resp = {
             "statusCode": 200,
             "headers": {

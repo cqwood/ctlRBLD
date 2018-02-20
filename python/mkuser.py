@@ -11,8 +11,7 @@ def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
     table = dynamodb.Table('Users')
     hashedpw = hashpw(pw.encode('utf-8'), gensalt())
-
-    response = table.put_item(Key={'username':str(user)})
+    response = table.get_item(Key={'username':str(user)})
     try:
         len(response['Item'])
     except:
@@ -24,6 +23,7 @@ def lambda_handler(event, context):
             "body": "User ID already exists"
         }
         return resp
+    response = table.put_item(
     Item={
         'username': user,
         'password': hashedpw.decode('utf-8'),
@@ -31,7 +31,7 @@ def lambda_handler(event, context):
         'registered': str(datetime.datetime.now()),
         'verified': True
     }
-
+    )
     status = 200
     respBody = "successfully registered user {user}".format(user=user)
     resp = {

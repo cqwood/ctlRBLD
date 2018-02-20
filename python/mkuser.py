@@ -11,7 +11,6 @@ def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
     table = dynamodb.Table('Users')
     hashedpw = hashpw(pw.encode('utf-8'), gensalt())
-    response = table.get_item()
 
     response = table.put_item(Key={'username':str(user)})
     try:

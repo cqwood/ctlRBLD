@@ -15,6 +15,27 @@ def lambda_handler(event, context):
     try:
         len(response['Item'])
     except:
+        response = table.put_item(
+        Item={
+            'username': user,
+            'password': hashedpw.decode('utf-8'),
+            'email': mail,
+            'registered': str(datetime.datetime.now()),
+            'verified': True
+        }
+        )
+        status = 200
+        respBody = "successfully registered user {user}".format(user=user)
+        resp = {
+            "statusCode": status,
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
+            "body": respBody
+        }
+        return resp
+#    return "handler works"
+    else:
         resp = {
             "statusCode": 304,
             "headers": {
@@ -23,25 +44,3 @@ def lambda_handler(event, context):
             "body": "User ID already exists"
         }
         return resp
-    response = table.put_item(
-    Item={
-        'username': user,
-        'password': hashedpw.decode('utf-8'),
-        'email': mail,
-        'registered': str(datetime.datetime.now()),
-        'verified': True
-    }
-    )
-    status = 200
-    respBody = "successfully registered user {user}".format(user=user)
-    resp = {
-        "statusCode": status,
-        "headers": {
-            "Access-Control-Allow-Origin": "*"
-        },
-        "body": respBody
-
-    }
-
-    return resp
-#    return "handler works"

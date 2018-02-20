@@ -32,7 +32,7 @@ def lambda_handler(event, context):
         'registered': str(datetime.datetime.now()),
         'verified': True
     }
-    )
+
     status = 200
     respBody = "successfully registered user {user}".format(user=user)
     resp = {

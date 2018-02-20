@@ -17,7 +17,10 @@ def hello(event, context):
 
     response = table.get_item(Key={'username':str(user)})
     hashtest = checkpw(pw.encode('utf-8'), response['Item']["password"].encode('utf-8'))
-
+    try:
+        len(response['Item'])
+    except:
+        return "User ID does not exist"
     if hashtest ==  True:
         if response['Item']["verified"] == True:
             url = getURL()

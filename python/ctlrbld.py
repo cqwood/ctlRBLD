@@ -76,6 +76,8 @@ def handler(event, context):
 
     elif platform == "JUN":
 #insert JUN code here
+        t1export = list()
+        t2export = list()
         communities = []
         policies = []
         dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
@@ -88,6 +90,7 @@ def handler(event, context):
         for svc in services:
             if svc in communityoptions:
                 communities.append(communityoptions[svc])
+                t1export.append(response["Item"]["term1export"][svc])
             else:
                 resp = {
                     "statusCode": 200,
@@ -100,7 +103,19 @@ def handler(event, context):
         if len(services) >= 1:
             template = template + response["Item"]["term1"]
         if "BVoIP" in services  and prefix != "" or "SIP" in services and prefix != "" or "WHOLESALE VoIP" in services and prefix != "":
-
+            template = template + response["Item"]["term2"]
+            template = template + "set policy-options prefix-list asdf-1234-export {pfxList}\n".replace("{pfxList}", prefix)
+            for svc in services:
+                if svc in communityoptions:
+                    try:
+                        t2export.append(response["Item"]["term2export"][svc])
+                    except:
+                        asdf = 2
+        template = template.replace("{communities}", "{CUG} " + " ".join(communities))
+        template = template.replace("{term1export}", " ".join(t1export))
+        template = template.replace("{term2export}", " ".join(t2export))
+        template = template.replace("{CUG}", CUG)
+        template = template.replace("{VPRN}", VPRN)
         template = template.replace("\n", "<br>")
         resp = {
             "statusCode": 200,

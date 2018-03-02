@@ -137,8 +137,8 @@ resources:
           - login.ctlrbld.de
           Origins:
           -
-            DomainName: ctlrbld-dev-s3bucket-1jdlcprz5b7zu.s3-website.us-east-2.amazonaws.com
-            Id: S3-Website-ctlrbld-dev-s3bucket-1jdlcprz5b7zu.s3-website.us-east-2.amazonaws.com
+            DomainName: ${file(deploymentOptions.yml):publics3}.s3-website.us-east-2.amazonaws.com
+            Id: S3-Website-${file(deploymentOptions.yml):publics3}.s3-website.us-east-2.amazonaws.com
             CustomOriginConfig:
               HTTPPort: '80'
               HTTPSPort: '443'

@@ -146,8 +146,9 @@ custom:
   pythonRequirements:
     dockerizePip: true
   s3Sync:
-    - bucketName: ctlrbldprivate
-      localDir: private
     - bucketName: ${file(deploymentOptions.yml):publics3}
       localDir: public
+    - bucketName: ${file(deploymentOptions.yml):privates3}
+      localDir: private
+
 

@@ -150,5 +150,3 @@ custom:
       localDir: public
     - bucketName: ${file(deploymentOptions.yml):privates3}
       localDir: private
-
-
